@@ -5,7 +5,7 @@ const Document = () => {
     <Html>
       <Head>
         <body 
-        className= "bg-[url(https://res.cloudinary.com/jessaleem/image/upload/v1663641365/my_restaurant/background_image_y86ldn.jpg)]"
+        className= ""
         >
           <Main />
           <NextScript />

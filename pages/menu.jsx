@@ -10,7 +10,7 @@ const MenuList = ({ menuList }) => {
       <section className="container mx-auto px-0 md:px-4 py-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center gap-4">
           {menuList.data.map((menu) => (
-            <MenuCard menu={menu.attributes} key={menu.id} />
+            <MenuCard menu={menu} key={menu.id} />
           ))}
         </div>
       </section>
@@ -34,7 +34,7 @@ export default MenuList;
 
 export async function getStaticProps(){
   const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_URL}/menus?populate=*`);
-  // console.log(menuResponse);
+  console.log(menuResponse);
   return {
     props: {
       menuList: menuResponse

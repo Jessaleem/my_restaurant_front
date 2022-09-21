@@ -1,15 +1,13 @@
-
+import Link from 'next/link';
 import { AiFillHeart } from 'react-icons/ai';
 import { BsChatSquareFill } from "react-icons/bs";
-// import { Link } from 'next/link';
 
 const MenuCard = ({ menu }) => {
-  console.log(menu);
-  const imagen = menu.images.data[0].attributes.url;
-  // const imageUrl= menu.attributes.images.data[0].attributes.url;
-  // console.log(imageUrl);
+  console.log(menu.attributes.slug);
+  const imagen = menu.attributes.images.data[0].attributes.url;
+  console.log(imagen);
   return(
-    // <Link href={`menuItem/` + menu.slug}>
+    <Link href={`/menu/${menu.attributes.slug}`}>
       <div className="
         bg-gray-200 hover:bg-gray-250 shadow-xl hover:shadow-none cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out;
         "
@@ -20,7 +18,7 @@ const MenuCard = ({ menu }) => {
           <div className="
             h-56 rounded-2xl overflow-hidden"
           >
-            <img src={imagen} className="object-cover w-full h-full" alt=""
+            <img src={`${process.env.NEXT_STRAPI_URL_UPLOADS}${imagen}`} className="object-cover w-full h-full" alt=""
             />
           </div>
           <div className="
@@ -43,14 +41,14 @@ const MenuCard = ({ menu }) => {
         </div>
         <div className="pt-10 pb-6 w-full px-4">
           <h1 className="font-medium leading-none text-base tracking-wider text-gray-500">
-            {menu.title}
+            {menu.attributes.title}
           </h1>
           <p className="my-3 leading-none text-base tracking-wider text-gray-400">
-          {menu.description}
+            {menu.attributes.description}
           </p>
         </div>
       </div>
-    // </Link>
+    </Link>
   )
 };
 
