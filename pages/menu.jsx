@@ -1,15 +1,43 @@
-import Layout from "../components/Layout";
+// import Layout from '../components/Layout';
+// import client from '../apollo-client';
+// import { GET_ALL_MENU_ITEMS } from '../graphql/queries';
+import MenuCard from '../components/MenuCard';
+import { fetchUrl } from '../graphql/api';
 
-const MenuList = () => {
+const MenuList = ({ menuList }) => {
   return(
-    <Layout>
-      <h1 className="text-5xl md:ext-6xl font-extrabold leading-tighter mb-4">
-        <span className="bg-clip-text tex-transparent bg-gradient-to-r from-blue-500 to-teal-400 py-2">
-          Menu
-        </span>
-      </h1>
-    </Layout>
+    <main className="bg-gray-100 h-full md:h-screen w-full">
+      <section className="container mx-auto px-0 md:px-4 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center gap-4">
+          {menuList.data.map((menu) => (
+            <MenuCard menu={menu.attributes} key={menu.id} />
+          ))}
+        </div>
+      </section>
+    </main>
   );
 };
 
 export default MenuList;
+
+// export const getStaticProps = async () => {
+//   const apolloClient = client
+
+//   const { data } = await apolloClient.query({ query: GET_ALL_MENU_ITEMS });
+//   console.log(data.menus.data);
+//   return {
+//     props: {
+//       menuList: data.menus.data
+//     }
+//   }
+// }
+
+export async function getStaticProps(){
+  const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_URL}/menus?populate=*`);
+  // console.log(menuResponse);
+  return {
+    props: {
+      menuList: menuResponse
+    }
+  }
+}
