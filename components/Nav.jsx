@@ -1,19 +1,46 @@
 import Link from "next/link";
+import { useState } from "react";
+import { fetchUrl } from "../services/api";
+import { setToken, unsetToken } from "../services/auth";
+import { useUser } from "../services/authContext";
+
+// const STRAPI_PUBLIC_URL = process.env.NEXT_STRAPI_PUBLIC_URL
 
 const Nav = () => {
+  const [data, setData] = useState({
+    identifier: '',
+    password: '',
+  });
+
+  const { user, loading } = useUser();
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+
+    const response = await fetchUrl('http://localhost:1337/api/auth/local', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        identifier: data.identifier,
+        password: data.password
+      }),
+    });
+    console.log(response);
+    setToken(response);
+  }
+  
+  const logout = () => {
+    unsetToken();
+  }
+
+  const handleChange =(evt) => {
+    setData({...data, [evt.target.name]: evt.target.value});
+  }
   return (
     <nav
-      className="
-        flex flex-wrap
-        items-center
-        justify-between
-        w-full
-        py-4
-        md:py-0
-        px-4
-        text-lg text gray-700
-        bg-white
-      "
+      className="flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text gray-700 bg-white"
     >
       <div>
         <Link href="/" passHref>
@@ -49,13 +76,7 @@ const Nav = () => {
         id="menu"
       >
         <ul
-          className="
-            pt-4
-            text-base text gray-700
-            md:flex
-            md: justify-between
-            md: pt-0 space-x-2
-          "
+          className="pt-4 text-base text gray-700 md:flex md: justify-between md: pt-0 space-x-2"
         >
           <li>
             <Link href="/">
@@ -69,10 +90,64 @@ const Nav = () => {
               </a>
             </Link>
           </li>
+          {!loading &&
+            (user ? (
+              <li>
+                <Link href="/profile">
+                  <a className="md:p-2 py-2 block hover:text-purple-400">
+                    Profile
+                  </a>
+                </Link>
+              </li>
+            ) : (
+              ''
+            ))}
+          {!loading &&
+            (user ? (
+              <li>
+                <a className="md:p-2 py-2 block hover:text-purple-400 cursor-pointer" onClick={logout}>
+                  Logout
+                </a>
+              </li>
+            ) : (
+              ''
+            ))}
+          {!loading && !user ? (
+            <>
+              <li>
+                <form onSubmit={handleSubmit} className="form-inline">
+                  <input onChange={handleChange} className="md:p-2 form-input py-2 rounded mx-2"
+                  type="text"
+                  name="identifier"
+                  placeholder="User"
+                  required
+                  />
+                  <input onChange={handleChange} className="md:p-2 form-input py-2 rounded mx-2"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  />
+                  <button className="md:p-2 rounded py-2 text-black bg-purple-200 p2" type="submit">
+                    Login
+                  </button>
+                </form>
+              </li>
+              <li>
+                <Link href="/sign-up">
+                  <a className="md:p-2 block py-2 hover:text-purple-400 text-black">
+                    Sign up
+                  </a>
+                </Link>
+              </li>
+            </>
+          ) : (
+            ''
+          )}
         </ul>
       </div>
     </nav>
   );
-}
+};
 
 export default Nav;

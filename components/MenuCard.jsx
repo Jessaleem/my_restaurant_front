@@ -3,14 +3,11 @@ import { AiFillHeart } from 'react-icons/ai';
 import { BsChatSquareFill } from "react-icons/bs";
 
 const MenuCard = ({ menu }) => {
-  console.log(menu.attributes.slug);
   const imagen = menu.attributes.images.data[0].attributes.url;
-  console.log(imagen);
   return(
     <Link href={`/menu/${menu.attributes.slug}`}>
       <div className="
-        bg-gray-200 hover:bg-gray-250 shadow-xl hover:shadow-none cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out;
-        "
+        bg-gray-200 hover:bg-gray-250 shadow-xl hover:shadow-none cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out"
       >
         <div className="
           relative mt-2 mx-2"

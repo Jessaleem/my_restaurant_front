@@ -1,4 +1,4 @@
-export async function fetchUrl(url, options = {}){
+export async function fetchUrl(url, options = {}) {
   let response;
   if (!options) {
     response = await fetch(url);
@@ -8,3 +8,4 @@ export async function fetchUrl(url, options = {}){
   const data = await response.json();
   return data;
 }
+

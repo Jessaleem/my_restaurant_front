@@ -1,11 +1,15 @@
-// import Layout from '../components/Layout';
+import Layout from '../components/Layout';
 // import client from '../apollo-client';
 // import { GET_ALL_MENU_ITEMS } from '../graphql/queries';
 import MenuCard from '../components/MenuCard';
-import { fetchUrl } from '../graphql/api';
+import { fetchUrl } from '../services/api';
+import { useFetchUser } from '../services/authContext';
 
 const MenuList = ({ menuList }) => {
+  const { user, loading } = useFetchUser;
+
   return(
+  <Layout user={user}>
     <main className="bg-gray-100 h-full md:h-screen w-full">
       <section className="container mx-auto px-0 md:px-4 py-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center gap-4">
@@ -15,6 +19,7 @@ const MenuList = ({ menuList }) => {
         </div>
       </section>
     </main>
+  </Layout>
   );
 };
 
@@ -33,8 +38,7 @@ export default MenuList;
 // }
 
 export async function getStaticProps(){
-  const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_URL}/menus?populate=*`);
-  console.log(menuResponse);
+  const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_PUBLIC_URL}menus?populate=*`);
   return {
     props: {
       menuList: menuResponse
