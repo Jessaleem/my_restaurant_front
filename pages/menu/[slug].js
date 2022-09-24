@@ -9,8 +9,7 @@ import {
 import { useFetchUser } from '../../services/authContext';
 import Layout from '../../components/Layout';
 
-const MenuItem = ({ menuIt, jwt, error }) => {
-  console.log(menuIt.id);
+const MenuItem = ({ menuIt, jwt, error }) => {  
   const { user, loading } = useFetchUser();
   const router = useRouter()
   const [review, setReview] = useState({
@@ -25,23 +24,24 @@ const MenuItem = ({ menuIt, jwt, error }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      await fetchUrl(`${process.env.NEXT_STRAPI_PUBLIC_URL}reviews`, {
-        metod: 'POST',
-        headers:{
+      const reviewer = await getUserFromLocalCookie();
+      await fetchUrl('http://localhost:1337/api/reviews', {
+        method: 'POST',
+        headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${jwt}`,
         },
         body: JSON.stringify({
           data: {
             review: review.value,
-            reviewer: await getUserFromLocalCookie(),
-            Menu: menuIt.id,
+            reviewer,
+            menu: menuIt.id,
           },
         }),
       });
       router.reload();
     } catch (error) {
-      console.log('error with req', error);
+      console.error(error);
     }
   };
   if (error) {

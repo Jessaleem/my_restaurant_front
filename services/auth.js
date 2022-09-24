@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import Router from 'next/router';
 import { fetchUrl } from "./api";
 
@@ -23,6 +24,7 @@ export const unsetToken = () => {
   if (typeof window === 'undefined') {
     return;
   }
+
   Cookies.remove('id');
   Cookies.remove('jwt');
   Cookies.remove('username');
@@ -32,7 +34,6 @@ export const unsetToken = () => {
 
 export const getUserFromLocalCookie = () => {
   const jwt = getTokenCookie();
-
   if (jwt) {
     return fetchUrl('http://localhost:1337/api/users/me', {
       headers: {

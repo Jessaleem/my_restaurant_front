@@ -3,6 +3,7 @@ import { useState } from "react";
 import { fetchUrl } from "../services/api";
 import { setToken, unsetToken } from "../services/auth";
 import { useUser } from "../services/authContext";
+import SignUp from "../pages/sign-up";
 
 // const STRAPI_PUBLIC_URL = process.env.NEXT_STRAPI_PUBLIC_URL
 
@@ -11,6 +12,12 @@ const Nav = () => {
     identifier: '',
     password: '',
   });
+
+  const [openModal, setopenModal] = useState(false);
+
+  const handleClick = () =>(
+    setopenModal(true)
+  );
 
   const { user, loading } = useUser();
 
@@ -135,9 +142,9 @@ const Nav = () => {
               </li>
               <li>
                 <Link href="/sign-up">
-                  <a className="md:p-2 block py-2 hover:text-purple-400 text-black">
-                    Sign up
-                  </a>
+                <a className="md:p-2 py-2 block hover:text-purple-400">
+                  Sign up
+                </a>
                 </Link>
               </li>
             </>
