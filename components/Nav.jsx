@@ -3,8 +3,6 @@ import { useState } from "react";
 import { fetchUrl } from "../services/api";
 import { setToken, unsetToken } from "../services/auth";
 import { useUser } from "../services/authContext";
-import SignUp from "../pages/sign-up";
-
 // const STRAPI_PUBLIC_URL = process.env.NEXT_STRAPI_PUBLIC_URL
 
 const Nav = () => {
@@ -12,12 +10,6 @@ const Nav = () => {
     identifier: '',
     password: '',
   });
-
-  const [openModal, setopenModal] = useState(false);
-
-  const handleClick = () =>(
-    setopenModal(true)
-  );
 
   const { user, loading } = useUser();
 
@@ -47,16 +39,16 @@ const Nav = () => {
   }
   return (
     <nav
-      className="flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text gray-700 bg-white"
+      className="sticky top-0 z-50 flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text gray-700 bg-grayBack bg-opacity-25"
     >
       <div>
         <Link href="/" passHref>
           <a>
             <img
               className="m-3"
-              src="https://res.cloudinary.com/jessaleem/image/upload/v1663642842/my_restaurant/logo_e8kgum.jpg"
-              width={200}
-              height={50}
+              src="https://res.cloudinary.com/jessaleem/image/upload/v1664060051/my_restaurant/Mi_proyecto_ymiapa.png"
+              width={100}
+              height={25}
               alt="Restaurant Logo"
             />
           </a>
@@ -68,7 +60,7 @@ const Nav = () => {
         className="h-6 w-6 cursor-pointer md:hidden block"
         fill="none"
         viewBox="0 0 24 24"
-        stroke="currentColor"
+        stroke="white"
       >
         <path
           strokeLinecap="round"
@@ -87,13 +79,13 @@ const Nav = () => {
         >
           <li>
             <Link href="/">
-              <a className="md:p-2 py-2 block hover:text-purple-400">Home</a>
+              <a className="md:p-2 py-2 block text-white hover:font-bold">HOME</a>
             </Link>
           </li>
           <li>
             <Link href="/menu">
-              <a className="md:p-2 py-2 block hover:text-purple-400" href="#">
-                Menu
+              <a className="md:p-2 py-2 block text-white hover:font-bold" href="#">
+                MENU
               </a>
             </Link>
           </li>
@@ -101,8 +93,8 @@ const Nav = () => {
             (user ? (
               <li>
                 <Link href="/profile">
-                  <a className="md:p-2 py-2 block hover:text-purple-400">
-                    Profile
+                  <a className="md:p-2 py-2 block text-white hover:font-bold">
+                    SETTINGS
                   </a>
                 </Link>
               </li>
@@ -112,8 +104,8 @@ const Nav = () => {
           {!loading &&
             (user ? (
               <li>
-                <a className="md:p-2 py-2 block hover:text-purple-400 cursor-pointer" onClick={logout}>
-                  Logout
+                <a className="md:p-2 py-2 block text-white hover:font-bold cursor-pointer" onClick={logout}>
+                  LOGOUT
                 </a>
               </li>
             ) : (
@@ -142,9 +134,9 @@ const Nav = () => {
               </li>
               <li>
                 <Link href="/sign-up">
-                <a className="md:p-2 py-2 block hover:text-purple-400">
-                  Sign up
-                </a>
+                  <a className="md:p-2 py-2 block hover:text-purple-400">
+                    Sign up
+                  </a>
                 </Link>
               </li>
             </>

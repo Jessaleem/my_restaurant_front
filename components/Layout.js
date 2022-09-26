@@ -5,22 +5,19 @@ import { UserProvider } from '../services/authContext';
 const Layout = ({ user, loading= false, children }) => (
   <UserProvider value={{ user, loading }}>
     <Head>
-      <title>Menu Database</title>
+      <title>The Taste Mamas</title>
     </Head>
 
     <Nav />
 
-    <main className="px-4">
+    <main className="px-2">
       <div
         className="
-          flex
           justify-center
           items-center
-          bg-white
           mx-auto
-          w-2/4
           rounded-lg
-          my-16
+          my-12
           p16
         "
       >

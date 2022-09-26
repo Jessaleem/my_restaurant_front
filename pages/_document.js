@@ -5,7 +5,7 @@ const Document = () => {
     <Html>
       <Head>
         <body 
-        className= ""
+        className= "bg-cover bg-menu-bg-image"
         >
           <Main />
           <NextScript />

@@ -16,6 +16,7 @@ const MenuItem = ({ menuIt, jwt, error }) => {
     value: '',
   });
   const image = menuIt.attributes.images.data[0].attributes.url;
+  const imageUrl =`http://localhost:1337${image}`
 
   const handleChange = (e) => {
     setReview({ value: e.target.value});
@@ -62,7 +63,7 @@ const MenuItem = ({ menuIt, jwt, error }) => {
             <div className="
               h-56 rounded-2xl overflow-hidden"
             >
-              <img src={`${process.env.NEXT_STRAPI_URL_UPLOADS}${image}`} className="object-cover w-full h-full" alt=""
+              <img src={imageUrl} className="object-cover w-full h-full" alt=""
               />
             </div>
           </div>
@@ -124,7 +125,6 @@ const MenuItem = ({ menuIt, jwt, error }) => {
 
 export async function getServerSideProps({ req, params }) {
   const { slug } = params;
-  console.log(slug);
   const jwt =
     typeof window !== 'undefined'
       ? getTokenCookie
@@ -139,11 +139,9 @@ export async function getServerSideProps({ req, params }) {
   );
 
   if (menuResponse.data) {
-    // const plot = await markdowntoHtml(menuResponse.data.attribute.plot)
     return {
       props: {
         menuIt: menuResponse.data,
-        // plot,
         jwt: jwt ? jwt : '',
       }
     };

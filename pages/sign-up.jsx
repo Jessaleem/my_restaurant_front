@@ -1,16 +1,15 @@
 import { useFetchUser } from '../services/authContext';
+import Layout from '../components/Layout';
+import SignUp from '../components/signUp';
 
-const SignUp = () => {
-
-  const handleClick = () => {
-    closeModal(false);
-  }
+const Signup = () => {
+  const { user, loading } = useFetchUser();
 
   return (
-    <div className="bg-gray-100 h-full md:h-screen w-full">
-        <p className="text-black">email</p>
-    </div>
+    <Layout user={user}>
+      <SignUp />
+    </Layout>
   )
 }
 
-export default SignUp;
+export default Signup;

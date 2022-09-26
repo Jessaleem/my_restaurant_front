@@ -1,19 +1,21 @@
+import { useEffect } from 'react';
 import Layout from '../components/Layout';
 // import client from '../apollo-client';
-// import { GET_ALL_MENU_ITEMS } from '../graphql/queries';
+// import { GET_ALL_MENU_ITEMS } from '../services/queries';
 import MenuCard from '../components/MenuCard';
 import { fetchUrl } from '../services/api';
 import { useFetchUser } from '../services/authContext';
 
 const MenuList = ({ menuList }) => {
   const { user, loading } = useFetchUser;
+  console.log(menuList);
 
   return(
   <Layout user={user}>
-    <main className="bg-gray-100 h-full md:h-screen w-full">
-      <section className="container mx-auto px-0 md:px-4 py-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center gap-4">
-          {menuList.data.map((menu) => (
+    <main className="bg-transparent">
+      <section className="bg-transparent bg-opacity:0">
+        <div className="flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg space-y-4">
+          {menuList?.data?.map((menu) => (
             <MenuCard menu={menu} key={menu.id} />
           ))}
         </div>
@@ -39,6 +41,7 @@ export default MenuList;
 
 export async function getStaticProps(){
   const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_PUBLIC_URL}menus?populate=*`);
+  console.log(menuResponse.attributes);
   return {
     props: {
       menuList: menuResponse

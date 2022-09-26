@@ -1,13 +1,18 @@
 import Link from 'next/link';
 import { AiFillHeart } from 'react-icons/ai';
 import { BsChatSquareFill } from "react-icons/bs";
+import Image from 'next/image';
+import { useEffect } from 'react';
 
 const MenuCard = ({ menu }) => {
-  const imagen = menu.attributes.images.data[0].attributes.url;
+
+  console.log(menu);
+  const image = menu?.attributes?.images?.data[0]?.attributes?.url;
+  const imageUrl =`http://localhost:1337${image}`
   return(
-    <Link href={`/menu/${menu.attributes.slug}`}>
+    <Link href={`/menu/${menu?.attributes?.slug}`}>
       <div className="
-        bg-gray-200 hover:bg-gray-250 shadow-xl hover:shadow-none cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out"
+        bg-gray-200 hover:bg-slate-300 shadow-xl hover:shadow cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out"
       >
         <div className="
           relative mt-2 mx-2"
@@ -15,8 +20,7 @@ const MenuCard = ({ menu }) => {
           <div className="
             h-56 rounded-2xl overflow-hidden"
           >
-            <img src={`${process.env.NEXT_STRAPI_URL_UPLOADS}${imagen}`} className="object-cover w-full h-full" alt=""
-            />
+            <img src={imageUrl} className="object-cover w-full h-full" alt=""/>
           </div>
           <div className="
             absolute bottom-0 left-0 -mb-4 ml-3 flex flex-row"
@@ -38,10 +42,13 @@ const MenuCard = ({ menu }) => {
         </div>
         <div className="pt-10 pb-6 w-full px-4">
           <h1 className="font-medium leading-none text-base tracking-wider text-gray-500">
-            {menu.attributes.title}
+            {menu?.attributes?.title}
           </h1>
           <p className="my-3 leading-none text-base tracking-wider text-gray-400">
-            {menu.attributes.description}
+            {menu?.attributes?.description}
+          </p>
+          <p className="my-3 leading-none text-base tracking-wider text-gray-400">
+            usd {menu?.attributes?.price}
           </p>
         </div>
       </div>
