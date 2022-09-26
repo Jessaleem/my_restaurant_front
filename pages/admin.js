@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Layout from "../components/Layout";
 import { fetchUrl } from '../services/api';
 import { useFetchUser } from "../services/authContext";
+import slugify from 'slugify';
 
 const AdminPage = () => {
 
@@ -32,10 +33,34 @@ const AdminPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const formData = new FormData();
-    // const file = img;
-    // formData.append("images", file);
-    // formData.append('data', JSON.stringyfy(...form));
+    // const title = "parmesano con pollo";
+
+    // const payload = {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     "data": {
+    //       title,
+    //       "description": "el mejor del mundo",
+    //       "price": 6,
+    //       "slug": slugify(title, '-')
+    //     }
+    //   })
+    // }
+    
+    
+    // try {
+    //   const response = await fetch('http://localhost:1337/api/menus', payload)
+    //   const data = await response.json()
+    // } catch (error) {
+    //   console.log("🚀 error", error)
+    // }
+    // // const formData = new FormData();
+    // // const file = img;
+    // // formData.append("images", file);
+    // // formData.append('data', JSON.stringyfy(...form));
     const form = document.querySelector('form');
     console.log(form);
     const data = {};
@@ -44,24 +69,29 @@ const AdminPage = () => {
     console.log('tipo', typeof(myElements));
 
     myElements
-      .forEach(({ name, type, value, file }) =>{
+      .forEach(({ name, type, value, files }) =>{
         if (!['submit', 'file'].includes(type)) {
           data[name] = value;
+          console.log('title', title.value)
+          data['slug'] = slugify(title.value, '-');
+          console.log('data1', data)
           console.log('value', value);
-        } else if (type === 'file') {
-            formData.append(`file.${name}`, file.name)
-            console.log('formdata', formData);
+        }
+         else if (type === 'file') {
+          console.log('files', files);
+            formData.append(`files.${name}`, files[0], files[0].name);
+            console.log('formdata', formData.values);
         }
       })
-      
       formData.append('data', JSON.stringify(data));
       console.log('data', data);
+      console.log('formdata', formData);
 
     try {
     const response = await fetchUrl('http://localhost:1337/api/menus', {
       method: 'POST',
       // headers:{
-      //   'Content-Type': 'application/json'
+      //   'Content-Type': 'multipart/form-data'
       // },
       body: formData
 
@@ -82,7 +112,7 @@ const AdminPage = () => {
           <div className="flex flex-col mt-4">
             <span className="text-lg">Images</span>
             <div className="bg-slate-50  mt-2 p-8 border border-gray-300 box-border rounded">
-              <input type="file" name="files" id="files" placeholder="Image" onChange={handleChange} />
+              <input type="file" name="images" id="files" placeholder="Image" onChange={handleChange} />
             </div>
           </div>
           <div className="flex-start">
@@ -98,7 +128,7 @@ const AdminPage = () => {
               <span className="text-lg mr-4">Price (usd)</span>
               <input type="number"className="rounded border-gray-300" name="price" id="price" onChange={handleChange} />
             </div>
-            <input className="pb-1 pr-2 pl-2 rounded text-white bg-slate-400 my-4" type="submit" value="submit">save</input>
+            <input className="pb-1 pr-2 pl-2 rounded text-white bg-slate-400 my-4" type="submit" value="submit"/>
           </div>
       </form>
     </Layout>

@@ -11,6 +11,7 @@ const MenuCard = ({ menu }) => {
   const imageUrl =`http://localhost:1337${image}`
   return(
     <Link href={`/menu/${menu?.attributes?.slug}`}>
+      <a>
       <div className="
         bg-gray-200 hover:bg-slate-300 shadow-xl hover:shadow cursor-pointer w-80 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ease-in-out"
       >
@@ -52,6 +53,7 @@ const MenuCard = ({ menu }) => {
           </p>
         </div>
       </div>
+      </a>
     </Link>
   )
 };
