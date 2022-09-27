@@ -4,6 +4,7 @@ const Document = () => {
   return(
     <Html>
       <Head>
+        <link rel="shortcut icon" href="/favicon.ico" />
         <body 
         className= "bg-cover bg-menu-bg-image"
         >

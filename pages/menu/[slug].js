@@ -16,7 +16,7 @@ const MenuItem = ({ menuIt, jwt, error }) => {
     value: '',
   });
   const image = menuIt.attributes.images.data[0].attributes.url;
-  const imageUrl =`http://localhost:1337${image}`
+  const imageUrl =`${process.env.NEXT_PUBLIC_STRAPI_URL}${image}`
 
   const handleChange = (e) => {
     setReview({ value: e.target.value});
@@ -26,7 +26,7 @@ const MenuItem = ({ menuIt, jwt, error }) => {
     e.preventDefault();
     try{
       const reviewer = await getUserFromLocalCookie();
-      await fetchUrl('http://localhost:1337/api/reviews', {
+      await fetchUrl(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export async function getServerSideProps({ req, params }) {
     typeof window !== 'undefined'
       ? getTokenCookie
       : getTokenFromServerCookie(req);
-  const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_PUBLIC_URL}menu/find-by-slug/${slug}?populate=*`, jwt
+  const menuResponse = await fetchUrl(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/menu/find-by-slug/${slug}?populate=*`, jwt
     ? {
         headers: {
           Authorization: `Bearer ${jwt}`,

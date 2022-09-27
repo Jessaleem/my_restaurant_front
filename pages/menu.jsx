@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import Layout from '../components/Layout';
-// import client from '../apollo-client';
-// import { GET_ALL_MENU_ITEMS } from '../services/queries';
 import MenuCard from '../components/MenuCard';
 import { fetchUrl } from '../services/api';
 import { useFetchUser } from '../services/authContext';
 
 const MenuList = ({ menuList }) => {
-  const { user, loading } = useFetchUser;
-  console.log(menuList);
+  const { user, loading } = useFetchUser();
+  console.log(user);
 
   return(
   <Layout user={user}>
@@ -27,20 +25,8 @@ const MenuList = ({ menuList }) => {
 
 export default MenuList;
 
-// export const getStaticProps = async () => {
-//   const apolloClient = client
-
-//   const { data } = await apolloClient.query({ query: GET_ALL_MENU_ITEMS });
-//   console.log(data.menus.data);
-//   return {
-//     props: {
-//       menuList: data.menus.data
-//     }
-//   }
-// }
-
 export async function getStaticProps(){
-  const menuResponse = await fetchUrl(`${process.env.NEXT_STRAPI_PUBLIC_URL}menus?populate=*`);
+  const menuResponse = await fetchUrl(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/menus?populate=*`);
   console.log(menuResponse.attributes);
   return {
     props: {

@@ -1,4 +1,4 @@
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Layout from "../components/Layout";
 import { fetchUrl } from '../services/api';
@@ -8,59 +8,19 @@ import slugify from 'slugify';
 const AdminPage = () => {
 
   const { user } = useFetchUser();
-  // const [img, setImg] = useState(null);
   const [form, setForm] = useState({});
 
-  // const router = useRouter();
-  // const menuInfo = {
-  //   title: title,
-  //   description: description,
-  //   price: price 
-  // }
+  const router = useRouter();
+
 
   const handleChange =(e) => {
     setForm({...form, [e.target.name]: e.target.value})
   }
-  // const handleFiles = (e) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     const tmpImg = e.target.files[0];
-  //     setImg(tmpImg);
-  //   }
-  // }
-  // console.log(form);
-  // console.log(img);
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const title = "parmesano con pollo";
 
-    // const payload = {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     "data": {
-    //       title,
-    //       "description": "el mejor del mundo",
-    //       "price": 6,
-    //       "slug": slugify(title, '-')
-    //     }
-    //   })
-    // }
-    
-    
-    // try {
-    //   const response = await fetch('http://localhost:1337/api/menus', payload)
-    //   const data = await response.json()
-    // } catch (error) {
-    //   console.log("🚀 error", error)
-    // }
-    // // const formData = new FormData();
-    // // const file = img;
-    // // formData.append("images", file);
-    // // formData.append('data', JSON.stringyfy(...form));
     const form = document.querySelector('form');
     console.log(form);
     const data = {};
@@ -88,14 +48,11 @@ const AdminPage = () => {
       console.log('formdata', formData);
 
     try {
-    const response = await fetchUrl('http://localhost:1337/api/menus', {
+    const response = await fetchUrl(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/menus`, {
       method: 'POST',
-      // headers:{
-      //   'Content-Type': 'multipart/form-data'
-      // },
       body: formData
-
     })
+    router('/menu');
     return response.json();
     } catch (error) {
       return new Error(error);
@@ -128,7 +85,7 @@ const AdminPage = () => {
               <span className="text-lg mr-4">Price (usd)</span>
               <input type="number"className="rounded border-gray-300" name="price" id="price" onChange={handleChange} />
             </div>
-            <input className="pb-1 pr-2 pl-2 rounded text-white bg-slate-400 my-4" type="submit" value="submit"/>
+            <input className="pb-1 pr-2 pl-2 rounded text-white bg-slate-400 my-4 cursor-pointer" type="submit" value="submit"/>
           </div>
       </form>
     </Layout>

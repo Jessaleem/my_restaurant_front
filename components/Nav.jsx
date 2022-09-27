@@ -3,7 +3,6 @@ import { useState } from "react";
 import { fetchUrl } from "../services/api";
 import { setToken, unsetToken } from "../services/auth";
 import { useUser } from "../services/authContext";
-// const STRAPI_PUBLIC_URL = process.env.NEXT_STRAPI_PUBLIC_URL
 
 const Nav = () => {
   const [data, setData] = useState({
@@ -16,7 +15,7 @@ const Nav = () => {
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
-    const response = await fetchUrl('http://localhost:1337/api/auth/local', {
+    const response = await fetchUrl(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json'
@@ -28,6 +27,7 @@ const Nav = () => {
     });
     console.log(response);
     setToken(response);
+    e.target.reset();
   }
   
   const logout = () => {
@@ -92,7 +92,7 @@ const Nav = () => {
           {!loading &&
             (user ? (
               <li>
-                <Link href="/profile">
+                <Link href="/admin">
                   <a className="md:p-2 py-2 block text-white hover:font-bold">
                     SETTINGS
                   </a>
@@ -114,7 +114,7 @@ const Nav = () => {
           {!loading && !user ? (
             <>
               <li>
-                <form onSubmit={handleSubmit} className="form-inline">
+                <form id="form" onSubmit={handleSubmit} className="form-inline">
                   <input onChange={handleChange} className="md:p-2 form-input py-2 rounded mx-2"
                   type="text"
                   name="identifier"
@@ -127,15 +127,15 @@ const Nav = () => {
                   placeholder="Password"
                   required
                   />
-                  <button className="md:p-2 rounded py-2 text-black bg-purple-200 p2" type="submit">
-                    Login
+                  <button className="md:p-2 rounded py-2 text-white bg-amber-600 p2 hover:font-bold" type="submit">
+                    LOGIN
                   </button>
                 </form>
               </li>
               <li>
                 <Link href="/sign-up">
-                  <a className="md:p-2 py-2 block hover:text-purple-400">
-                    Sign up
+                  <a className="md:p-2 py-2 block text-white hover:text-amber-600 hover:font-bold">
+                    SIGN UP
                   </a>
                 </Link>
               </li>

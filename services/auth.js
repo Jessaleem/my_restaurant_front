@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import Router from 'next/router';
 import { fetchUrl } from "./api";
 
@@ -35,7 +34,7 @@ export const unsetToken = () => {
 export const getUserFromLocalCookie = () => {
   const jwt = getTokenCookie();
   if (jwt) {
-    return fetchUrl('http://localhost:1337/api/users/me', {
+    return fetchUrl(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
